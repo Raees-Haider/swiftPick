@@ -27,19 +27,6 @@ Run migrations:
 rails db:migrate
 ```
 
-## Running the Test Suite
-
-This project uses RSpec for testing. To run the test suite:
-
-```bash
-bundle exec rspec
-```
-
-You can also run individual spec files:
-```bash
-bundle exec rspec spec/models/user_spec.rb
-```
-
 ## Starting the Application Locally
 
 To startup the Rails server, make sure that you are in the root of the application in the terminal and run:
@@ -65,3 +52,17 @@ Use Ctrl-C to stop
 ```
 
 Now that the server is running properly, you can go and verify that it's working properly in the browser by going to: http://localhost:3000/
+
+## Running the Test Suite
+
+This project uses RSpec for testing. To run the test suite:
+
+```bash
+bundle exec rspec
+```
+
+You can also run individual spec files:
+```bash
+bundle exec rspec spec/models/user_spec.rb
+```
+
