@@ -279,7 +279,7 @@
                       <div class="card border-0">
                         <% if product.image.attached? %>
                           <%= image_tag url_for(product.image),
-                              class: "img-fluid rounded",
+                              class: "object-fit-contain rounded",
                               style: "height: 200px; width: 100%; object-fit: cover; cursor: pointer;",
                               alt: product.name %>
                         <% else %>
@@ -349,7 +349,7 @@
                       <div class="card border-0">
                         <% if product.image.attached? %>
                           <%= image_tag url_for(product.image),
-                              class: "img-fluid rounded",
+                              class: "object-fit-contain rounded",
                               style: "height: 200px; width: 100%; object-fit: cover; cursor: pointer;",
                               alt: product.name %>
                         <% else %>
