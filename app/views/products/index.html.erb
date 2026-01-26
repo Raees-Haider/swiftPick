@@ -16,8 +16,8 @@
           <%= link_to product_path(product), class: "text-decoration-none" do %>
             <% if product.image.attached? %>
               <%= image_tag url_for(product.image),
-                    class: "card-img-top",
-                    style: "height: 220px; object-fit: cover; cursor: pointer;",
+                    class: "card-img-top object-fit-contain",
+                    style: "height: 220px; cursor: pointer;",
                     alt: product.name %>
             <% else %>
               <%= image_tag "placeholder.png",
