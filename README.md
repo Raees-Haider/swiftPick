@@ -9,6 +9,16 @@ This project is built with:
 - Rails 8.1.1
 - SQLite3
 
+## Clone the repository
+
+```bash
+git clone git@github.com:Raees-Haider/swiftPick.git
+```
+
+```bash
+cd swiftPick
+```
+
 ## Install Dependencies
 
 ```bash
@@ -17,14 +27,13 @@ bundle install
 
 ## Database Setup
 
-Create the database:
-```bash
-rails db:create
-```
-
 Run migrations:
 ```bash
 rails db:migrate
+```
+
+```bash
+rails db:seed
 ```
 
 ## Starting the Application Locally
