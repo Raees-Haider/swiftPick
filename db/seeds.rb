@@ -1,5 +1,4 @@
 puts "Seeding database..."
-
 IMAGES_DIR = Rails.root.join('app', 'assets', 'images')
 PLACEHOLDER_PNG = "\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\nIDATx\x9cc\x00\x01\x00\x00\x05\x00\x01\r\n-\xdb\x00\x00\x00\x00IEND\xaeB`\x82".freeze
 
@@ -11,6 +10,8 @@ end
 def attach_image(product, image_path, images_dir)
   return if product.image.attached?
   
+  require 'stringio'
+  
   if image_path && File.exist?(images_dir.join(image_path))
     ext = File.extname(image_path)[1..-1].downcase
     content_type = case ext
@@ -21,11 +22,14 @@ def attach_image(product, image_path, images_dir)
                    else 'image/jpeg'
                    end
     
-    File.open(images_dir.join(image_path), 'rb') do |file|
-      product.image.attach(io: file, filename: image_path, content_type: content_type)
-    end
+    # Read file into memory to avoid IOError: closed stream
+    file_content = File.binread(images_dir.join(image_path))
+    product.image.attach(
+      io: StringIO.new(file_content),
+      filename: image_path,
+      content_type: content_type
+    )
   else
-    # Fresh StringIO for each product
     product.image.attach(
       io: placeholder_image,
       filename: "#{product.name.parameterize}.png",
@@ -34,32 +38,38 @@ def attach_image(product, image_path, images_dir)
   end
 end
 
-created_count = 0
-updated_count = 0
-
 ActiveRecord::Base.transaction do
-  # Admin user
   admin = User.find_or_initialize_by(email: "admin@example.com")
   if admin.new_record?
-    admin.assign_attributes(name: "Admin User", password: "admin123", role: "admin")
+    admin.assign_attributes(
+      name: "Admin User",
+      password: "admin123",
+      role: "admin"
+    )
     admin.save!
     puts "✓ Admin user created"
   else
     puts "✓ Admin user already exists"
   end
+end
 
-  # Categories
-  categories_data = ["Tech","Books","Home & Kitchen","Gaming"]
-  category_map = {}
+categories_data = [
+  "Tech",
+  "Books",
+  "Home & Kitchen",
+  "Gaming"
+]
+
+category_map = {}
+ActiveRecord::Base.transaction do
   categories_data.each do |name|
     category = Category.find_or_create_by!(name: name)
     category_map[name] = category
   end
   puts "✓ Created/verified #{category_map.count} categories"
-
-  # Products
-  products_data = [
-{
+end
+products_data = [
+  {
     name: "Gaming Laptop",
     description: "High-performance gaming laptop with RTX graphics card, 16GB RAM, and 1TB SSD storage. Perfect for gaming and professional work.",
     price: 1299.99,
@@ -131,34 +141,46 @@ ActiveRecord::Base.transaction do
     categories: ["Home & Kitchen"],
     image_path: "coffee.jpg"
   }
-  ]
+]
 
+created_count = 0
+updated_count = 0
+
+ActiveRecord::Base.transaction do
   products_data.each do |data|
     product = Product.find_or_initialize_by(name: data[:name])
     is_new = product.new_record?
-
+    
     product.assign_attributes(
       description: data[:description],
       price: data[:price],
       stock_quantity: data[:stock_quantity],
       active: data[:active]
     )
-
+    
     if data[:categories].present?
-      cats = data[:categories].map { |name| category_map[name] }.compact
-      product.category_id = cats.first.id if cats.any?       # primary
-      product.category_ids = cats.map(&:id)                 # many-to-many
+      categories = data[:categories].map { |name| category_map[name] }.compact
+      
+      if categories.any?
+        # Set primary category_id (required NOT NULL constraint)
+        product.category_id = categories.first.id
+        # Set all categories for many-to-many relationship
+        product.category_ids = categories.map(&:id)
+      end
     end
-
+    
+    # Attach image before saving (required for validation)
     attach_image(product, data[:image_path], IMAGES_DIR)
+    
     product.save!
-
+    
     is_new ? created_count += 1 : updated_count += 1
   end
 end
 
 puts "✓ Processed #{products_data.count} products (#{created_count} created, #{updated_count} updated)"
-puts "="*50
+
+puts "\n" + "="*50
 puts "Seeding completed successfully!"
 puts "="*50
 puts "Admin Login Credentials:"
