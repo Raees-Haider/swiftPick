@@ -1,0 +1,169 @@
+<div class="container mt-4">
+  <%= link_to "← Back to Orders", admin_orders_path, class: "btn btn-secondary mb-3" %>
+  
+  <h1 class="mb-4">Order #<%= @order.id %> Details</h1>
+  
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Customer Information -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Customer Information</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p class="mb-2"><strong>Name:</strong> <%= @order.user.name || 'N/A' %></p>
+              <p class="mb-2"><strong>Email:</strong> <%= @order.user.email %></p>
+              <p class="mb-0"><strong>User ID:</strong> #<%= @order.user.id %></p>
+            </div>
+            <div class="col-md-6">
+              <p class="mb-2"><strong>Order Date:</strong> <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+              <p class="mb-2"><strong>Order Status:</strong> 
+                <span class="badge bg-<%= @order.status == 'pending' ? 'warning' : @order.status == 'completed' ? 'success' : @order.status == 'cancelled' ? 'danger' : 'secondary' %>">
+                  <%= @order.status&.capitalize || 'Pending' %>
+                </span>
+              </p>
+              <p class="mb-0"><strong>Payment Method:</strong>
+                <% case @order.payment_method %>
+                <% when 'cash_on_delivery' %>
+                  Cash on Delivery
+                <% when 'credit_card' %>
+                  Credit/Debit Card
+                <% when 'bank_transfer' %>
+                  Bank Transfer
+                <% else %>
+                  <%= @order.payment_method&.capitalize || 'N/A' %>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Shipping Information -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0">Shipping Information</h5>
+        </div>
+        <div class="card-body">
+          <p class="mb-2"><strong>Shipping Address:</strong></p>
+          <p class="text-muted mb-2"><%= @order.shipping_address %></p>
+          <p class="mb-0"><strong>Phone:</strong> <%= @order.phone %></p>
+        </div>
+      </div>
+      
+      <!-- Order Items -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Order Items</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th>Product Image</th>
+                  <th>Product Name</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @order.order_items.each do |item| %>
+                  <tr>
+                    <td>
+                      <% if item.product.image.attached? %>
+                        <%= image_tag url_for(item.product.image),
+                              class: "img-thumbnail",
+                              style: "width: 60px; height: 60px; object-fit: cover;" %>
+                      <% else %>
+                        <span class="text-muted">No Image</span>
+                      <% end %>
+                    </td>
+                    <td><strong><%= item.product.name %></strong></td>
+                    <td><%= item.quantity %></td>
+                    <td>Rs <%= item.price.round(2) %></td>
+                    <td><strong>Rs <%= (item.price * item.quantity).round(2) %></strong></td>
+                  </tr>
+                <% end %>
+              </tbody>
+              <tfoot class="table-light">
+                <tr>
+                  <td colspan="4" class="text-end"><strong>Order Total:</strong></td>
+                  <td><strong>Rs <%= @order.total_amount.round(2) %></strong></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="card shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">Order Summary</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <p class="mb-1"><strong>Order ID:</strong></p>
+            <p class="text-muted">#<%= @order.id %></p>
+            
+            <p class="mb-1"><strong>Order Date:</strong></p>
+            <p class="text-muted"><%= @order.created_at.strftime("%B %d, %Y") %></p>
+            
+            <p class="mb-1"><strong>Customer:</strong></p>
+            <p class="text-muted"><%= @order.user.name || @order.user.email %></p>
+            
+            <p class="mb-1"><strong>Total Items:</strong></p>
+            <p class="text-muted"><%= @order.order_items.sum(:quantity) %> item(s)</p>
+            
+            <p class="mb-1"><strong>Total Amount:</strong></p>
+            <p class="h5 text-primary">Rs <%= @order.total_amount.round(2) %></p>
+          </div>
+          
+          <hr>
+          
+          <!-- Update Status -->
+          <h6 class="mb-3">Update Order Status</h6>
+          <% if @order.completed? %>
+            <div class="alert alert-info">
+              <p class="mb-0"><strong>Order Completed</strong></p>
+              <p class="mb-0 small">This order has been completed and cannot be modified.</p>
+            </div>
+            <div class="mb-3">
+              <%= select_tag :status, 
+                  options_for_select([
+                    ['Pending', 'pending'],
+                    ['Processing', 'processing'],
+                    ['Shipped', 'shipped'],
+                    ['Completed', 'completed'],
+                    ['Cancelled', 'cancelled']
+                  ], @order.status),
+                  { class: "form-select", disabled: true } %>
+            </div>
+            <button type="button" class="btn btn-secondary w-100" disabled>Update Status</button>
+          <% else %>
+            <%= form_with model: [:admin, @order], local: true do |f| %>
+              <div class="mb-3">
+                <%= f.select :status, 
+                    options_for_select([
+                      ['Pending', 'pending'],
+                      ['Processing', 'processing'],
+                      ['Shipped', 'shipped'],
+                      ['Completed', 'completed'],
+                      ['Cancelled', 'cancelled']
+                    ], @order.status),
+                    {},
+                    { class: "form-select" } %>
+              </div>
+              <%= f.submit "Update Status", class: "btn btn-warning w-100" %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

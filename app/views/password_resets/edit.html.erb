@@ -1,0 +1,42 @@
+<%= image_tag "larg logo.png",
+                class: "img-fluid mx-auto d-block my-4",
+                style: "height:80px; object-fit:cover;" %>
+
+<div class="container mt-5 p-3 rounded border border-dark" style="max-width: 400px;">
+
+<h2 class="mb-4 text-center">Reset Password</h2>
+
+<p>Please enter your new password.</p>
+
+<%= form_with model: @user,
+              url: password_reset_path(params[:token]),
+              method: :patch,
+              local: true do |f| %>
+
+  <% if @user.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :password %>
+    <%= f.password_field :password,
+        class: "form-control",
+        required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation,
+        class: "form-control",
+        required: true %>
+  </div>
+
+  <%= f.submit "Reset Password", class: "btn btn-success" %>
+  <% end %>
+</div>

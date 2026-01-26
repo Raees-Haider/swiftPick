@@ -1,0 +1,115 @@
+<div class="container-fluid mt-4 mb-5">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="mb-0">Manage Products</h1>
+      <p class="text-muted mb-0">View and manage all products in your store</p>
+    </div>
+    <div>
+      <%= link_to admin_root_path, class: "btn btn-outline-secondary me-2" do %>
+        Dashboard
+      <% end %>
+      <%= link_to new_admin_product_path, class: "btn btn-primary" do %>
+        Add Product
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Products Table -->
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <% if @products.any? %>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th style="width: 80px;">Image</th>
+                <th>Name</th>
+                <th>Categories</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th style="width: 150px;" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @products.each do |product| %>
+                <tr>
+                  <td>
+                    <% if product.image.attached? %>
+                      <%= image_tag url_for(product.image),
+                                    class: "img-thumbnail",
+                                    style: "width: 60px; height: 60px; object-fit: cover;",
+                                    alt: product.name %>
+                    <% else %>
+                      <span class="text-muted">No Image</span>
+                    <% end %>
+                  </td>
+
+                  <td>
+                    <strong><%= product.name %></strong>
+                  </td>
+
+                  <td>
+                    <% if product.categories.any? %>
+                      <% product.categories.each do |category| %>
+                        <span class="badge bg-info text-dark me-1 mb-1"><%= category.name %></span>
+                      <% end %>
+                    <% else %>
+                      <span class="text-muted">No categories</span>
+                    <% end %>
+                  </td>
+
+                  <td>
+                    <strong>Rs <%= product.price %></strong>
+                  </td>
+
+        <td><%= product.stock_quantity %></td>
+
+                  <td>
+                    <% if product.active %>
+                      <span class="badge bg-success">Active</span>
+                    <% else %>
+                      <span class="badge bg-secondary">Inactive</span>
+                    <% end %>
+                  </td>
+
+                  <td class="text-center">
+                    <div class="btn-group" role="group">
+                      <%= link_to edit_admin_product_path(product),
+                                  class: "btn btn-sm btn-outline-primary",
+                                  title: "Edit" do %>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                        </svg>
+                      <% end %>
+                      <%= button_to admin_product_path(product),
+                                    method: :delete,
+                                    data: { confirm: "Are you sure you want to delete #{product.name}?" },
+                                    class: "btn btn-sm btn-outline-danger",
+                                    title: "Delete" do %>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="text-center py-5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-box-seam text-muted mb-3" viewBox="0 0 16 16">
+            <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 .114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
+          </svg>
+          <h5 class="text-muted">No products found</h5>
+          <p class="text-muted">Get started by adding your first product</p>
+          <%= link_to "Add New Product", new_admin_product_path, class: "btn btn-primary mt-2" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

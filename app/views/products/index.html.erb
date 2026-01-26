@@ -1,0 +1,70 @@
+<div class="container mt-4">
+  <h3 class="mb-4">
+    <% if params[:category].present? %>
+      <%= params[:category] %> Products
+    <% elsif params[:query].present? %>
+      Search results for "<%= params[:query] %>"
+    <% else %>
+      All Products
+    <% end %>
+  </h3>
+
+  <div class="row">
+    <% @products.each do |product| %>
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <%= link_to product_path(product), class: "text-decoration-none" do %>
+            <% if product.image.attached? %>
+              <%= image_tag url_for(product.image),
+                    class: "card-img-top",
+                    style: "height: 220px; object-fit: cover; cursor: pointer;",
+                    alt: product.name %>
+            <% else %>
+              <%= image_tag "placeholder.png",
+                    class: "card-img-top",
+                    style: "height: 220px; object-fit: cover; cursor: pointer;",
+                    alt: "Placeholder" %>
+            <% end %>
+          <% end %>
+
+          <div class="card-body d-flex flex-column">
+            <%= link_to product_path(product), class: "text-decoration-none text-dark" do %>
+              <h5 class="card-title"><%= product.name %></h5>
+            <% end %>
+
+            <p class="card-text text-muted">
+              <%= truncate(product.description, length: 80) %>
+            </p>
+
+            <!-- Stock Status -->
+            <div class="mb-2">
+              <% if product.stock_quantity == 0 %>
+                <span class="badge bg-danger">Out of Stock</span>
+              <% elsif product.stock_quantity <= 10 %>
+                <span class="badge bg-warning text-dark"><%= product.stock_quantity %> items left</span>
+              <% else %>
+                <span class="badge bg-success">In Stock</span>
+              <% end %>
+            </div>
+
+
+            <p class="fw-bold mt-auto">
+              Rs <%= product.price %>
+            </p>
+
+            <%= button_to "Add to Cart",
+                  cart_cart_items_path(product_id: product.id),
+                  method: :post,
+                  class: "btn btn-primary w-100" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @products.empty? %>
+    <div class="alert alert-warning text-center">
+      No products found
+    </div>
+  <% end %>
+</div>

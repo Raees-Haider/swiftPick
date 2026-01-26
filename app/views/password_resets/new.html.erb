@@ -1,0 +1,22 @@
+<%= image_tag "larg logo.png",
+                class: "img-fluid mx-auto d-block my-4",
+                style: "height:80px; object-fit:cover;" %>
+
+<div class="container mt-5 p-3 rounded border border-dark" style="max-width: 400px;">
+
+<h2 class="mb-4 text-center">Forgot Password</h2>
+
+<p>Enter your email address and we’ll send you a password reset link.</p>
+
+<%= form_with url: password_resets_path, method: :post, local: true do %>
+  <div class="mb-3">
+    <%= label_tag :email, "Email" %>
+    <%= email_field_tag :email, nil,
+        class: "form-control",
+        required: true,
+        autofocus: true %>
+  </div>
+
+  <%= submit_tag "Send Reset Link", class: "btn btn-primary" %>
+<% end %>
+</div>

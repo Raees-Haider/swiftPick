@@ -1,0 +1,46 @@
+<div class="container mt-3" style="max-width: 500px;">
+
+  <%= image_tag "larg logo.png",
+                class: "img-fluid mx-auto d-block mb-4",
+                style: "height:80px; object-fit:cover;" %>
+  
+  <div class="alert alert-success">
+    <h5 class="alert-heading">Password Reset Link Generated!</h5>
+    <p class="mb-3">Your password reset link has been generated. Click the button below to reset your password:</p>
+    <%= link_to "Reset Password", @reset_link, class: "btn btn-primary w-100 mb-3" %>
+    
+    <hr>
+    
+    <p class="mb-2 small text-muted"><strong>Or copy this link:</strong></p>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="resetLink" value="<%= @reset_link %>" readonly>
+      <button class="btn btn-outline-secondary" type="button" onclick="copyResetLink()">Copy</button>
+    </div>
+    <p class="mb-0 small text-muted"><strong>Note:</strong> This link will expire in 1 hour.</p>
+  </div>
+
+  <div class="mt-3 text-center">
+    <%= link_to "Back to Sign In", login_path, class: "text-decoration-none" %>
+  </div>
+
+  <script>
+    function copyResetLink() {
+      const resetLinkInput = document.getElementById('resetLink');
+      resetLinkInput.select();
+      resetLinkInput.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      
+      const button = event.target;
+      const originalText = button.textContent;
+      button.textContent = 'Copied!';
+      button.classList.add('btn-success');
+      button.classList.remove('btn-outline-secondary');
+      
+      setTimeout(function() {
+        button.textContent = originalText;
+        button.classList.remove('btn-success');
+        button.classList.add('btn-outline-secondary');
+      }, 2000);
+    }
+  </script>
+</div>

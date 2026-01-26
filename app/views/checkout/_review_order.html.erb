@@ -1,0 +1,86 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h4 class="card-title mb-4">Review Your Order</h4>
+    
+    <!-- Shipping Details -->
+    <div class="mb-4">
+      <h6 class="mb-2">Shipping Address:</h6>
+      <p class="text-muted mb-0"><%= session[:checkout_address] %></p>
+      <p class="text-muted mb-0">Phone: <%= session[:checkout_phone] %></p>
+    </div>
+    
+    <hr>
+    
+    <!-- Payment Method -->
+    <div class="mb-4">
+      <h6 class="mb-2">Payment Method:</h6>
+      <p class="text-muted mb-0">
+        <% case session[:checkout_payment_method] %>
+        <% when 'cash_on_delivery' %>
+          <strong>Cash on Delivery</strong>
+        <% when 'credit_card' %>
+          <strong>Credit/Debit Card</strong>
+        <% when 'bank_transfer' %>
+          <strong>Bank Transfer</strong>
+        <% end %>
+      </p>
+    </div>
+    
+    <hr>
+    
+    <!-- Order Items -->
+    <div class="mb-4">
+      <h6 class="mb-3">Order Items:</h6>
+      <% @cart_items.each do |item| %>
+        <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+          <div class="d-flex align-items-center">
+            <% if item.product.image.attached? %>
+              <%= image_tag url_for(item.product.image),
+                  class: "img-thumbnail me-3",
+                  style: "width: 60px; height: 60px; object-fit: cover;" %>
+            <% end %>
+            <div>
+              <strong><%= item.product.name %></strong>
+              <br>
+              <small class="text-muted">Quantity: <%= item.quantity %></small>
+            </div>
+          </div>
+          <div class="text-end">
+            <strong>Rs <%= (item.product.price * item.quantity).round(2) %></strong>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    
+    <hr>
+    
+    <!-- Totals -->
+    <div class="mb-4">
+      <div class="d-flex justify-content-between mb-2">
+        <span>Subtotal:</span>
+        <span>Rs <%= @subtotal.round(2) %></span>
+      </div>
+      <div class="d-flex justify-content-between mb-2">
+        <span>Tax:</span>
+        <span>Rs <%= @tax.round(2) %></span>
+      </div>
+      <div class="d-flex justify-content-between mb-2">
+        <span>Shipping:</span>
+        <span>Rs <%= @shipping %></span>
+      </div>
+      <hr>
+      <div class="d-flex justify-content-between mb-3">
+        <strong>Total:</strong>
+        <strong>Rs <%= @total.round(2) %></strong>
+      </div>
+    </div>
+    
+    <!-- Actions -->
+    <div class="d-flex justify-content-between">
+      <%= link_to "Back", checkout_path(step: 'payment'), class: "btn btn-outline-secondary" %>
+      <%= form_with url: checkout_path, method: :post, local: true do |f| %>
+        <%= submit_tag "Place Order", class: "btn btn-warning btn-lg px-5", data: { confirm: "Are you sure you want to place this order?" } %>
+      <% end %>
+    </div>
+  </div>
+</div>

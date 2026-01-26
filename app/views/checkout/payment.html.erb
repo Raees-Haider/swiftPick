@@ -1,0 +1,133 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Checkout</h2>
+  
+  <% if flash[:alert] %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <%= flash[:alert] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+
+  <form id="payment-form">
+    <!-- Email -->
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        placeholder="you@example.com"
+        value="<%= current_user.email %>"
+        required
+      >
+    </div>
+
+    <!-- Stripe Payment Element -->
+    <div class="mb-3">
+      <label class="form-label">Payment Details</label>
+      <div id="payment-element" class="form-control p-3"></div>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+      <%= link_to "Back", checkout_path(step: 'review'), class: "btn btn-outline-secondary btn-lg" %>
+      <button class="btn btn-warning btn-lg px-5" id="submit">
+        Pay Rs <%= @total.round(2) %>
+      </button>
+    </div>
+
+    <div id="error-message" class="text-danger mt-3"></div>
+  </form>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const stripePublishableKey = '<%= Rails.application.credentials.dig(:stripe, :publishable_key) || Rails.application.credentials.dig(:stripe, :public_key) || "" %>';
+  
+  if (!stripePublishableKey) {
+    alert('Stripe is not configured. Please contact support.');
+    return;
+  }
+  
+  const stripe = Stripe(stripePublishableKey);
+  const submitButton = document.getElementById("submit");
+
+  try {
+    const response = await fetch("<%= checkout_create_payment_intent_path %>", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create payment intent');
+    }
+
+    const data = await response.json();
+    
+    if (data.error) {
+      document.getElementById("error-message").textContent = 'Error: ' + data.error;
+      submitButton.disabled = true;
+      return;
+    }
+
+    const { clientSecret } = data;
+
+    const elements = stripe.elements({ clientSecret });
+    const paymentElement = elements.create("payment");
+    paymentElement.mount("#payment-element");
+
+    const form = document.getElementById("payment-form");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      submitButton.disabled = true;
+      submitButton.textContent = 'Processing...';
+
+      const { error, paymentIntent } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          receipt_email: document.getElementById("email").value,
+          return_url: "<%= checkout_complete_payment_url %>"
+        },
+        redirect: 'if_required'
+      });
+
+      if (error) {
+        document.getElementById("error-message").textContent = error.message;
+        submitButton.disabled = false;
+        submitButton.textContent = 'Pay Rs <%= @total.round(2) %>';
+      } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+        // Payment succeeded, submit to complete payment
+        const completeForm = document.createElement('form');
+        completeForm.method = 'POST';
+        completeForm.action = '<%= checkout_complete_payment_path %>';
+        completeForm.style.display = 'none';
+        
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = 'authenticity_token';
+        csrfInput.value = document.querySelector('meta[name="csrf-token"]').content;
+        completeForm.appendChild(csrfInput);
+        
+        const paymentIntentInput = document.createElement('input');
+        paymentIntentInput.type = 'hidden';
+        paymentIntentInput.name = 'payment_intent_id';
+        paymentIntentInput.value = paymentIntent.id;
+        completeForm.appendChild(paymentIntentInput);
+        
+        document.body.appendChild(completeForm);
+        completeForm.submit();
+      }
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    document.getElementById("error-message").textContent = 'Failed to initialize payment. Please refresh and try again.';
+    submitButton.disabled = true;
+  }
+});
+</script>

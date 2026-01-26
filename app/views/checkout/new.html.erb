@@ -1,0 +1,83 @@
+<div class="container mt-4">
+  <h1 class="mb-4">Checkout</h1>
+  
+  <% if flash[:alert] %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <%= flash[:alert] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+  
+  <!-- Progress Steps -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <ul class="nav nav-pills nav-justified">
+        <li class="nav-item">
+          <a class="nav-link <%= 'active' if @step == 'address' %> <%= 'text-success' if session[:checkout_address].present? %>" href="<%= checkout_path(step: 'address') %>">
+            <i class="bi bi-geo-alt"></i> Address & Phone
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= 'active' if @step == 'payment' %> <%= 'text-success' if session[:checkout_payment_method].present? %> <%= 'disabled' unless session[:checkout_address].present? %>" href="<%= checkout_path(step: 'payment') %>">
+            <i class="bi bi-credit-card"></i> Payment Method
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= 'active' if @step == 'review' %> <%= 'disabled' unless session[:checkout_payment_method].present? %>" href="<%= checkout_path(step: 'review') %>">
+            <i class="bi bi-check-circle"></i> Review & Place Order
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="row">
+    <!-- Checkout Form -->
+    <div class="col-lg-8">
+      <% case @step %>
+      <% when 'address' %>
+        <%= render 'address_form' %>
+      <% when 'payment' %>
+        <%= render 'payment_form' %>
+      <% when 'review' %>
+        <%= render 'review_order' %>
+      <% end %>
+    </div>
+    
+    <!-- Order Summary -->
+    <div class="col-lg-4">
+      <div class="card shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Order Summary</h5>
+          
+          <div class="d-flex justify-content-between mb-2">
+            <span>Subtotal:</span>
+            <span>Rs <%= @subtotal.round(2) %></span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Tax:</span>
+            <span>Rs <%= @tax.round(2) %></span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Shipping:</span>
+            <span>Rs <%= @shipping %></span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between mb-3">
+            <strong>Total:</strong>
+            <strong>Rs <%= @total.round(2) %></strong>
+          </div>
+          
+          <hr>
+          <h6 class="mb-2">Items (<%= @cart_items.sum(&:quantity) %>)</h6>
+          <% @cart_items.each do |item| %>
+            <div class="d-flex justify-content-between mb-2 small">
+              <span><%= item.product.name %> x <%= item.quantity %></span>
+              <span>Rs <%= (item.product.price * item.quantity).round(2) %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

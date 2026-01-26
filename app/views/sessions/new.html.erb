@@ -1,0 +1,55 @@
+<%= image_tag "larg logo.png",
+                class: "img-fluid mx-auto d-block my-4",
+                style: "height:80px; object-fit:cover;" %>
+
+<div class="container mt-5 p-3 rounded border border-dark" style="max-width: 400px;">
+  <h2 class="mb-4 text-center">Sign In</h2>
+
+  <% if flash[:alert] %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= flash[:alert] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+
+  <% if flash[:notice] %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= flash[:notice] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+
+  <%= form_with url: login_path, method: :post, local: true do |f| %>
+    <div class="mb-3">
+      <%= f.label :email, "Email Address", class: "form-label" %>
+      <%= f.email_field :email, 
+                        class: "form-control", 
+                        placeholder: "Enter your email address",
+                        autocomplete: "email",
+                        autofocus: true %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :password, "Password", class: "form-label" %>
+      <%= f.password_field :password, 
+                          class: "form-control", 
+                          placeholder: "Enter your password",
+                          autocomplete: "current-password" %>
+    </div>
+
+    <div class="mb-3 form-check">
+      <%= f.check_box :remember_me, { checked: params[:remember_me] == "1" }, "1", "0" %>
+      <%= f.label :remember_me, "Remember Me", class: "form-check-label" %>
+    </div>
+
+    <%= f.submit "Sign In", class: "btn btn-primary w-100 py-2 fw-bold" %>
+  <% end %>
+
+  <div class="mt-3 text-center">
+    <%= link_to "Forgot password?", new_password_reset_path, class: "text-decoration-none" %>
+  </div>
+
+  <div class="mt-3 text-center">
+    Don't have an account? <%= link_to "Sign Up", signup_path, class: "text-decoration-none fw-bold" %>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="container mt-4">
+  <h1 class="mb-4">My Orders</h1>
+  
+  <% if @orders.any? %>
+    <% @orders.each do |order| %>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-light">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <h5 class="mb-0">Order #<%= order.id %></h5>
+              <small class="text-muted">Placed on <%= order.created_at.strftime("%B %d, %Y at %I:%M %p") %></small>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <span class="badge bg-<%= order.status == 'pending' ? 'warning' : order.status == 'completed' ? 'success' : 'secondary' %>">
+                <%= order.status&.capitalize || 'Pending' %>
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <!-- Shipping Details -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <h6 class="mb-2">Shipping Address:</h6>
+              <p class="text-muted mb-0"><%= order.shipping_address %></p>
+              <p class="text-muted mb-0">Phone: <%= order.phone %></p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="mb-2">Payment Method:</h6>
+              <p class="text-muted mb-0">
+                <% case order.payment_method %>
+                <% when 'cash_on_delivery' %>
+                  <strong>Cash on Delivery</strong>
+                <% when 'credit_card' %>
+                  <strong>Credit/Debit Card</strong>
+                <% when 'bank_transfer' %>
+                  <strong>Bank Transfer</strong>
+                <% else %>
+                  <%= order.payment_method&.capitalize || 'N/A' %>
+                <% end %>
+              </p>
+            </div>
+          </div>
+          
+          <hr>
+          
+          <!-- Order Items -->
+          <h6 class="mb-3">Order Items:</h6>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% order.order_items.each do |item| %>
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <% if item.product.image.attached? %>
+                          <%= image_tag url_for(item.product.image),
+                                class: "img-thumbnail me-2",
+                                style: "width: 50px; height: 50px; object-fit: cover;" %>
+                        <% end %>
+                        <div>
+                          <strong><%= item.product.name %></strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td><%= item.quantity %></td>
+                    <td>Rs <%= item.price.round(2) %></td>
+                    <td><strong>Rs <%= (item.price * item.quantity).round(2) %></strong></td>
+                  </tr>
+                <% end %>
+              </tbody>
+              <tfoot class="table-light">
+                <tr>
+                  <td colspan="3" class="text-end"><strong>Order Total:</strong></td>
+                  <td><strong>Rs <%= order.total_amount.round(2) %></strong></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="text-center py-5">
+      <h3 class="text-muted mb-3">No orders yet</h3>
+      <p class="text-muted mb-4">Start shopping to see your orders here!</p>
+      <%= link_to "Browse Products", products_path, class: "btn btn-primary btn-lg" %>
+    </div>
+  <% end %>
+</div>

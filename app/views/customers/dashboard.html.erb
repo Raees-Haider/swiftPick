@@ -1,0 +1,381 @@
+<div class="pb-5" style="background-color: #f0f0f0;">
+  <section class="promo-slider mb-4">
+    <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <%= image_tag "promo1.jpg", class: "d-block w-100", alt: "Promo 1", style: "max-height: 400px; object-fit: cover;" %>
+        </div>
+        <div class="carousel-item">
+          <%= image_tag "promo2.jpg", class: "d-block w-100", alt: "Promo 2", style: "max-height: 400px; object-fit: cover;" %>
+        </div>
+        <div class="carousel-item">
+          <%= image_tag "promo.jpg", class: "d-block w-100", alt: "Promo 3", style: "max-height: 400px; object-fit: cover;" %>
+        </div>
+        <div class="carousel-item">
+          <%= image_tag "promo0.jpg", class: "d-block w-100", alt: "Promo 0", style: "max-height: 400px; object-fit: cover;" %>
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+ 
+  <div class="container my-4">
+    <div class="row g-4">
+      <!-- Card 1: Kitchen Appliances -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+              Top categories in Kitchen appliances
+            </h5>
+            <%= image_tag "cooker.jpg",
+                class: "img-fluid mb-3 rounded",
+                style: "height:175px; width: 100%; object-fit:cover;" %>
+            <p class="mb-3"><small class="fw-semibold">Cooker</small></p>
+            <div class="row text-center g-2">
+              <div class="col-4">
+                <%= image_tag "pot&pan.jpg", class: "img-fluid rounded mb-1",
+                      style: "height:80px; width: 100%; object-fit:cover;" %>
+                <small>pot & Pans</small>
+              </div>
+              <div class="col-4">
+                <%= image_tag "coffee.jpg", class: "img-fluid rounded mb-1",
+                      style: "height:80px; width: 100%; object-fit:cover;" %>
+                <small>Coffee</small>
+              </div>
+              <div class="col-4">
+                <%= image_tag "kettle.jpg", class: "img-fluid rounded mb-1",
+                      style: "height:80px; width: 100%; object-fit:cover;" %>
+                <small>Kettles</small>
+              </div>
+            </div>
+            <div class="mt-3 ">
+              <%= link_to products_path(category: "Kitchen"), class: "btn text-primary btn-sm" do %>
+                Explore more
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+              Wireless Tech
+            </h5>
+            <div class="row text-center mt-4 g-2">
+              <div class="col-6 mb-3">
+                <%= image_tag "Smartphone.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Smartphone</small>
+              </div>
+              <div class="col-6 mb-3">
+                <%= image_tag "Watches.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Watches</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "Headphone.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Headphone</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "Tablet.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Tablet</small>
+              </div>
+            </div>
+            <div class="mt-3 ">
+              <%= link_to products_path(category: "tech"), class: "btn text-primary btn-sm" do %>
+                Explore more
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Home Upgrades -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+              Home upgrades under 
+            </h5>
+            <div class="row text-center mt-4 g-2">
+              <div class="col-6 mb-3">
+                <%= image_tag "dinnerware.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Dinnerware</small>
+              </div>
+              <div class="col-6 mb-3">
+                <%= image_tag "CleaningTool.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Cleaning tools</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "kitchen.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Kitchen</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "storage.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Storage</small>
+              </div>
+            </div>
+            <div class="mt-3">
+              <%= link_to products_path(category: "Home"), class: "btn text-primary btn-sm" do %>
+                Explore more
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-4">
+    <div class="row g-4">
+      <!-- Card 1 -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+              Pick for home decore
+            </h5>
+            <div class="row text-center mt-4 g-2">
+              <div class="col-6 mb-3">
+                <%= image_tag "decor.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Home decor</small>
+              </div>
+              <div class="col-6 mb-3">
+                <%= image_tag "decore.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Home decor</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "decoreq.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Home decor</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "decorew.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Home decor</small>
+              </div>
+            </div>
+            <div class="mt-3 ">
+              <%= link_to products_path(category: "decor"), class: "btn text-primary btn-sm" do %>
+                Explore more
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+              Pick up a Book
+            </h5>
+            <div class="row text-center mt-4 g-2">
+              <div class="col-6 mb-3">
+                <%= image_tag "book5.webp", class: "object-fit-contain rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>The Correspondent</small>
+              </div>
+              <div class="col-6 mb-3">
+                <%= image_tag "book6.webp", class: "object-fit-contain rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Heated Rivalry</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "book7.webp", class: "object-fit-contain rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>The Healing Power of Resilience</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "book8.webp", class: "object-fit-contain rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Reframe Your Brain</small>
+              </div>
+            </div>
+            <div class="mt-3 ">
+              <%= link_to products_path(category: "books"), class: "btn text-primary btn-sm" do %>
+                Explore more
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+              Gear up to get fit 
+            </h5>
+            <div class="row text-center mt-4 g-2">
+              <div class="col-6 mb-3">
+                <%= image_tag "fit1.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Clothing</small>
+              </div>
+              <div class="col-6 mb-3">
+                <%= image_tag "fit2.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Trackers</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "fit3.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Equipments</small>
+              </div>
+              <div class="col-6">
+                <%= image_tag "fit4.jpg", class: "img-fluid rounded",
+                      style: "height:120px; width: 100%; object-fit:cover;" %>
+                <small>Essentials</small>
+              </div>
+            </div>
+            <div class="mt-3">
+              <%= link_to products_path(category: "Home"), class: "btn text-primary btn-sm" do %>
+                Explore more
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Best Sellers Section -->
+  <div class="container my-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h4 class="fw-bold mb-4">
+          Best Sellers in Gaming
+        </h4>
+        <% if @gaming_products.any? %>
+          <div id="bestSellerCarousel" class="carousel slide" data-bs-ride="false">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="d-flex justify-content-between align-items-center my-3 flex-wrap gap-3">
+                  <% @gaming_products.each do |product| %>
+                    <%= link_to product_path(product), class: "text-decoration-none flex-grow-1", style: "max-width: 200px; min-width: 150px;" do %>
+                      <div class="card border-0">
+                        <% if product.image.attached? %>
+                          <%= image_tag url_for(product.image),
+                              class: "img-fluid rounded",
+                              style: "height: 200px; width: 100%; object-fit: cover; cursor: pointer;",
+                              alt: product.name %>
+                        <% else %>
+                          <%= image_tag "placeholder.png",
+                              class: "img-fluid rounded",
+                              style: "height: 200px; width: 100%; object-fit: cover; cursor: pointer;",
+                              alt: "Placeholder" %>
+                        <% end %>
+                        
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <p class="text-muted">No gaming products available at the moment.</p>
+        <% end %>
+        <div class="mt-4 ">
+          <%= link_to products_path(category: "Gaming"), class: "btn text-primary btn-sm" do %>
+            Explore more
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gaming Section -->
+  <div class="container my-4">
+    <div class="row g-4">
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+              Get your Game on 
+            </h5>
+            <%= image_tag "gaming.jpg",
+                class: "img-fluid mb-3 rounded",
+                style: "height: 250px; width: 100%; object-fit:cover;" %>
+            <p class="mb-3"><small class="fw-semibold">Shop gaming</small></p>
+            <div>
+              <%= link_to products_path(category: "Gaming"), class: "btn text-primary btn-sm" do %>
+                Explore more
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Best Sellers Section -->
+  <div class="container my-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h4 class="fw-bold mb-4">
+          Best in books
+        </h4>
+        <% if @books_products.any? %>
+          <div id="bestSellerCarousel" class="carousel slide" data-bs-ride="false">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="d-flex justify-content-between align-items-center my-3 flex-wrap gap-3">
+                  <% @books_products.each do |product| %>
+                    <%= link_to product_path(product), class: "text-decoration-none flex-grow-1", style: "max-width: 200px; min-width: 150px;" do %>
+                      <div class="card border-0">
+                        <% if product.image.attached? %>
+                          <%= image_tag url_for(product.image),
+                              class: "img-fluid rounded",
+                              style: "height: 200px; width: 100%; object-fit: cover; cursor: pointer;",
+                              alt: product.name %>
+                        <% else %>
+                          <%= image_tag "placeholder.png",
+                              class: "img-fluid rounded",
+                              style: "height: 200px; width: 100%; object-fit: cover; cursor: pointer;",
+                              alt: "Placeholder" %>
+                        <% end %>
+                        
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <p class="text-muted">No books available at the moment.</p>
+        <% end %>
+        <div class="mt-4 ">
+          <%= link_to products_path(category: "books"), class: "btn text-primary btn-sm" do %>
+            Explore more
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

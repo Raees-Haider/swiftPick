@@ -1,0 +1,315 @@
+<div class="container-fluid mt-4 mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Admin Dashboard</h1>
+    <div>
+      <%= button_to logout_path, method: :delete, class: "btn btn-outline-danger d-inline-flex align-items-center", form: { class: "d-inline" } do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right me-1" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+          <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+        </svg>
+        Logout
+      <% end %>
+    </div>
+  </div>
+  
+  <div class="row g-4 mb-4">
+    <div class="col-lg-3 col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted mb-2">Total Sales</h6>
+              <h3 class="mb-0"><%= @total_sales %></h3>
+            </div>
+            <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#0d6efd" viewBox="0 0 16 16">
+                <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5v2A1.5 1.5 0 0 1 14.5 5h-13A1.5 1.5 0 0 1 0 3.5v-2zM1.5 1a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-13zM5 8.5A1.5 1.5 0 0 1 6.5 7h3A1.5 1.5 0 0 1 11 8.5v2a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 5 10.5v-2zM6.5 8a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-3zM0 12a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 12v2a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14v-2zm1.5-.5a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-13z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted mb-2">Total Revenue</h6>
+              <h3 class="mb-0">Rs <%= @total_revenue.round(2).to_s.gsub(/(\d)(?=(\d{3})+(?!\d))/, "\\1,") %></h3>
+            </div>
+            <div class="bg-success bg-opacity-10 rounded-circle p-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#198754" viewBox="0 0 16 16">
+                <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted mb-2">Total Customers</h6>
+              <h3 class="mb-0"><%= @total_customers %></h3>
+            </div>
+            <div class="bg-info bg-opacity-10 rounded-circle p-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#0dcaf0" viewBox="0 0 16 16">
+                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216Z"/>
+                <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted mb-2">Active Products</h6>
+              <h3 class="mb-0"><%= @total_products %></h3>
+            </div>
+            <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffc107" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Quick Links</h5>
+          <div class="d-flex flex-wrap gap-2">
+            <%= link_to "Manage Products", admin_products_path, class: "btn btn-outline-primary" %>
+            <%= link_to "Manage Categories", admin_categories_path, class: "btn btn-outline-secondary" %>
+            <%= link_to "View Orders", admin_orders_path, class: "btn btn-outline-success" %>
+            <%= link_to "View Users", admin_users_path, class: "btn btn-outline-info" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Charts Row -->
+  <div class="row g-4 mb-4">
+    <!-- Daily Sales Chart -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Sales (Last 30 Days)</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="salesChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Daily Revenue Chart -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Revenue (Last 30 Days)</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="revenueChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Monthly Charts Row -->
+  <div class="row g-4">
+    <!-- Monthly Sales Chart -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Monthly Sales (Last 12 Months)</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="monthlySalesChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Monthly Revenue Chart -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Monthly Revenue (Last 12 Months)</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="monthlyRevenueChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+  // Daily Sales Chart
+  const salesCtx = document.getElementById('salesChart');
+  if (salesCtx) {
+    new Chart(salesCtx, {
+      type: 'line',
+      data: {
+        labels: <%= raw @sales_data.keys.to_json %>,
+        datasets: [{
+          label: 'Number of Orders',
+          data: <%= raw @sales_data.values.to_json %>,
+          borderColor: 'rgb(13, 110, 253)',
+          backgroundColor: 'rgba(13, 110, 253, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      }
+    });
+  }
+  
+  // Daily Revenue Chart
+  const revenueCtx = document.getElementById('revenueChart');
+  if (revenueCtx) {
+    new Chart(revenueCtx, {
+      type: 'bar',
+      data: {
+        labels: <%= raw @revenue_data.keys.to_json %>,
+        datasets: [{
+          label: 'Revenue (Rs)',
+          data: <%= raw @revenue_data.values.to_json %>,
+          backgroundColor: 'rgba(25, 135, 84, 0.7)',
+          borderColor: 'rgb(25, 135, 84)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return 'Rs ' + value.toLocaleString();
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+  
+  // Monthly Sales Chart
+  const monthlySalesCtx = document.getElementById('monthlySalesChart');
+  if (monthlySalesCtx) {
+    new Chart(monthlySalesCtx, {
+      type: 'line',
+      data: {
+        labels: <%= raw @monthly_sales_data.keys.to_json %>,
+        datasets: [{
+          label: 'Number of Orders',
+          data: <%= raw @monthly_sales_data.values.to_json %>,
+          borderColor: 'rgb(13, 202, 240)',
+          backgroundColor: 'rgba(13, 202, 240, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      }
+    });
+  }
+  
+  // Monthly Revenue Chart
+  const monthlyRevenueCtx = document.getElementById('monthlyRevenueChart');
+  if (monthlyRevenueCtx) {
+    new Chart(monthlyRevenueCtx, {
+      type: 'bar',
+      data: {
+        labels: <%= raw @monthly_revenue_data.keys.to_json %>,
+        datasets: [{
+          label: 'Revenue (Rs)',
+          data: <%= raw @monthly_revenue_data.values.to_json %>,
+          backgroundColor: 'rgba(255, 193, 7, 0.7)',
+          borderColor: 'rgb(255, 193, 7)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return 'Rs ' + value.toLocaleString();
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+</script>
