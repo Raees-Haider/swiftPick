@@ -62,6 +62,19 @@ Use Ctrl-C to stop
 
 Now that the server is running properly, you can go and verify that it's working properly in the browser by going to: http://localhost:3000/
 
+## Admin Login Credentials
+
+Email: 
+```bash
+admin@example.com
+```
+
+Password: 
+```bash
+admin123
+```
+
+
 ## Running the Test Suite
 
 This project uses RSpec for testing. To run the test suite:

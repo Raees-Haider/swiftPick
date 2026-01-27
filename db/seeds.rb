@@ -67,7 +67,7 @@ ActiveRecord::Base.transaction do
     category = Category.find_or_create_by!(name: name)
     category_map[name] = category
   end
-  puts "Created/verified #{category_map.count} categories"
+  puts "Created #{category_map.count} categories"
 end
 products_data = [
   {
@@ -275,12 +275,8 @@ ActiveRecord::Base.transaction do
   end
 end
 
-puts "Processed #{products_data.count} products (#{created_count} created, #{updated_count} updated)"
+puts "Processed #{products_data.count} products (#{created_count} created)"
 
 puts "\n" + "="*50
 puts "Seeding completed successfully!"
-puts "="*50
-puts "Admin Login Credentials:"
-puts "  Email: admin@example.com"
-puts "  Password: admin123"
 puts "="*50
