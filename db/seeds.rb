@@ -21,8 +21,7 @@ def attach_image(product, image_path, images_dir)
                    when 'gif' then 'image/gif'
                    else 'image/jpeg'
                    end
-    
-    # Read file into memory to avoid IOError: closed stream
+
     file_content = File.binread(images_dir.join(image_path))
     product.image.attach(
       io: StringIO.new(file_content),
@@ -47,9 +46,9 @@ ActiveRecord::Base.transaction do
       role: "admin"
     )
     admin.save!
-    puts "✓ Admin user created"
+    puts "Admin user created"
   else
-    puts "✓ Admin user already exists"
+    puts "Admin user already exists"
   end
 end
 
@@ -57,7 +56,9 @@ categories_data = [
   "Tech",
   "Books",
   "Home & Kitchen",
-  "Gaming"
+  "Gaming",
+  "Home Decor",
+  "Cleaning"
 ]
 
 category_map = {}
@@ -66,7 +67,7 @@ ActiveRecord::Base.transaction do
     category = Category.find_or_create_by!(name: name)
     category_map[name] = category
   end
-  puts "✓ Created/verified #{category_map.count} categories"
+  puts "Created/verified #{category_map.count} categories"
 end
 products_data = [
   {
@@ -76,16 +77,43 @@ products_data = [
     stock_quantity: 15,
     active: true,
     categories: ["Tech","Gaming"],
-    image_path: "gaming.jpg"
+    image_path: "asus gamin laptop.jpg"
   },
   {
-    name: "Wireless Headphones",
+    name: "Headphones",
     description: "Premium noise-cancelling wireless headphones with 30-hour battery life and superior sound quality.",
-    price: 199.99,
+    price: 6199.99,
     stock_quantity: 50,
     active: true,
     categories: ["Tech","Gaming"],
-    image_path: "Headphone.jpg"
+    image_path: "blackshark.jpg"
+  },
+  {
+    name: "Sceptre Curved Gaming Monitor",
+    description: "Sceptre New Curved 24.5-inch Gaming Monitor up to 240Hz 1080p R1500 1ms DisplayPort x2 HDMI x2 Blue Light Shift Build-in Speakers, Machine Black 2025 (C255B-FWT240 Series)",
+    price: 356199.99,
+    stock_quantity: 50,
+    active: true,
+    categories: ["Tech","Gaming"],
+    image_path: "curved monitor.jpg"
+  },
+  {
+    name: "Razer Tartarus V2",
+    description: "Razer Tartarus V2 Gaming Keypad: Mecha Membrane Key Switches - One Handed Keyboard - 32 Programmable Keys",
+    price: 34199.99,
+    stock_quantity: 50,
+    active: true,
+    categories: ["Tech","Gaming"],
+    image_path: "Razer Tartarus V2.jpg"
+  },
+  {
+    name: "Meta Quest",
+    description: "Meta Quest 3S 128GB | VR Headset — Thirty-Three Percent More Memory — 2X Graphical Processing Power — Virtual Reality",
+    price: 356199.99,
+    stock_quantity: 50,
+    active: true,
+    categories: ["Tech","Gaming"],
+    image_path: "Meta Quest.jpg"
   },
   {
     name: "Smartphone",
@@ -126,11 +154,29 @@ products_data = [
   {
     name: "Reframe Your Brain",
     description: "Reframe Your Brain: The User Interface for Happiness and Success (The Scott Adams Success Series)",
-    price: 34.99,
+    price: 3499.99,
     stock_quantity: 80,
     active: true,
     categories: ["Books"],
     image_path: "book8.webp"
+  },
+  {
+    name: "Theo of Golden",
+    description: "Theo of Golden: A Novel",
+    price: 3499.99,
+    stock_quantity: 80,
+    active: true,
+    categories: ["Books"],
+    image_path: "book4.webp"
+  },
+  {
+    name: "The Housemaid",
+    description: "The Housemaid",
+    price: 3499.99,
+    stock_quantity: 80,
+    active: true,
+    categories: ["Books"],
+    image_path: "book3.webp"
   },
   {
     name: "Coffee Maker",
@@ -140,6 +186,60 @@ products_data = [
     active: true,
     categories: ["Home & Kitchen"],
     image_path: "coffee.jpg"
+  },
+  {
+    name: "LED Night Light",
+    description: "LED Night Light[2 Pack], Night Lights Plug into Wall, 3 Level Brightness Adjustable Plug in Night Light",
+    price: 4499.99,
+    stock_quantity: 80,
+    active: true,
+    categories: ["Home Decor"],
+    image_path: "decore4.jpg"
+  },
+  {
+    name: "Bookshelf Decor Thinker Statue",
+    description: "Bookshelf Decor Thinker Statue - Abstract Art Reading Thinker Sculpture Figurine Aesthetic",
+    price: 3499.99,
+    stock_quantity: 80,
+    active: true,
+    categories: ["Home Decor"],
+    image_path: "decore5.jpg"
+  },
+  {
+    name: "Candle Plate Holder Tray",
+    description: " Candle Plate Holder Tray: Round Wood Decorative Candle Plate Decor Farmhouse Table Centerpiece",
+    price: 4699.99,
+    stock_quantity: 80,
+    active: true,
+    categories: ["Home Decor"],
+    image_path: "decore6.jpg"
+  },
+  {
+    name: "Broom and Dustpan Set",
+    description: "Broom and Dustpan Set, Self-Cleaning with Dustpan Teeth, Indoor&Outdoor Sweeping",
+    price: 1299.99,
+    stock_quantity: 80,
+    active: true,
+    categories: ["Cleaning"],
+    image_path: "clean6.jpg"
+  },
+  {
+    name: "Clorox Disinfecting",
+    description: "Clorox Disinfecting All-Purpose Cleaner 32 Oz and Disinfecting Bathroom Cleaner",
+    price: 2499.99,
+    stock_quantity: 80,
+    active: true,
+    categories: ["Cleaning"],
+    image_path: "Clean7.jpg"
+  },
+  {
+    name: "Spin Mop",
+    description: "O-Cedar EasyWring Microfiber Spin Mop, Bucket Floor Cleaning System, Red, Gray, Standard",
+    price: 1499.99,
+    stock_quantity: 80,
+    active: true,
+    categories: ["Cleaning"],
+    image_path: "Clean8.jpg"
   }
 ]
 
@@ -162,14 +262,11 @@ ActiveRecord::Base.transaction do
       categories = data[:categories].map { |name| category_map[name] }.compact
       
       if categories.any?
-        # Set primary category_id (required NOT NULL constraint)
         product.category_id = categories.first.id
-        # Set all categories for many-to-many relationship
         product.category_ids = categories.map(&:id)
       end
     end
     
-    # Attach image before saving (required for validation)
     attach_image(product, data[:image_path], IMAGES_DIR)
     
     product.save!
@@ -178,7 +275,7 @@ ActiveRecord::Base.transaction do
   end
 end
 
-puts "✓ Processed #{products_data.count} products (#{created_count} created, #{updated_count} updated)"
+puts "Processed #{products_data.count} products (#{created_count} created, #{updated_count} updated)"
 
 puts "\n" + "="*50
 puts "Seeding completed successfully!"
