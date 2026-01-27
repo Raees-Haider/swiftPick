@@ -230,7 +230,7 @@ products_data = [
     stock_quantity: 80,
     active: true,
     categories: ["Cleaning"],
-    image_path: "Clean7.jpg"
+    image_path: "clean7.jpg"
   },
   {
     name: "Spin Mop",
@@ -239,7 +239,7 @@ products_data = [
     stock_quantity: 80,
     active: true,
     categories: ["Cleaning"],
-    image_path: "Clean8.jpg"
+    image_path: "clean8.jpg"
   }
 ]
 
