@@ -16,7 +16,6 @@ class PasswordResetsController < ApplicationController
 
 
   def edit
-    # @user is loaded by before_action
   end
 
   def update

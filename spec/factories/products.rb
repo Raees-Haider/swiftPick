@@ -12,9 +12,7 @@ FactoryBot.define do
     end
     
     before(:create) do |product, evaluator|
-      # Attach a test image using a simple 1x1 pixel PNG
       unless product.image.attached?
-        # Create a minimal valid PNG image
         require 'stringio'
         png_data = "\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\nIDATx\x9cc\x00\x01\x00\x00\x05\x00\x01\r\n-\xdb\x00\x00\x00\x00IEND\xaeB`\x82"
         product.image.attach(
@@ -24,7 +22,6 @@ FactoryBot.define do
         )
       end
       
-      # Determine which category to use
       category = if evaluator.category_id
                    Category.find(evaluator.category_id)
                  elsif evaluator.category
@@ -33,11 +30,8 @@ FactoryBot.define do
                    Category.first || create(:category)
                  end
       
-      # Set category_id directly (database column requirement)
       product.category_id = category.id
       
-      # Also add to categories association for validation (must be done before save)
-      # Use assign_attributes or direct assignment to avoid validation issues
       product.categories << category unless product.categories.include?(category)
     end
     

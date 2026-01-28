@@ -13,7 +13,6 @@ RSpec.describe PasswordResetsController, type: :controller do
   describe "POST #create" do
     context "with valid email" do
       it "generates password reset token" do
-        # Clear token and reload before the test
         user.update_columns(password_reset_token: nil, password_reset_sent_at: nil)
         user.reload
         

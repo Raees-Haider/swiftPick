@@ -38,7 +38,6 @@ RSpec.describe Admin::OrdersController, type: :controller do
     it "shows the order details" do
       get :show, params: { id: order.id }
       expect(response).to have_http_status(:success)
-      # Verify the page loads successfully with order information
     end
   end
   

@@ -7,7 +7,6 @@ RSpec.describe ProductsController, type: :controller do
   let(:product2) { create(:product, name: "Shirt", category_id: category2.id, active: true) }
   let(:inactive_product) { create(:product, name: "Inactive", category_id: category.id, active: false) }
   
-  # Categories are already added by the factory, no need to add again
   
   describe "GET #index" do
     it "returns http success" do
@@ -75,7 +74,6 @@ RSpec.describe ProductsController, type: :controller do
     
     it "shows related products" do
       related = create(:product, category_id: category.id, active: true)
-      # Category is already added by factory, no need to add again
       get :show, params: { id: product1.id }
       expect(assigns(:related_products)).to include(related)
     end

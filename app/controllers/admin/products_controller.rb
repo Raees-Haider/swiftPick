@@ -18,12 +18,10 @@ class Admin::ProductsController < ApplicationController
     
     @product = Product.new(permitted_params)
     
-    # Set primary category_id from first selected category (for NOT NULL constraint)
     if category_ids.present? && category_ids.first.present?
       @product.category_id = category_ids.first.to_i
     end
     
-    # Set all category_ids for many-to-many relationship
     @product.category_ids = category_ids.map(&:to_i).reject(&:zero?) if category_ids.present?
     
     if @product.save

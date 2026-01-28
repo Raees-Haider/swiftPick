@@ -143,7 +143,6 @@ class CheckoutController < ApplicationController
       stripe_payment_intent_id: stripe_payment_intent_id || session[:payment_intent_id]
     )
     
-    # Only create order items if order was saved successfully
     unless @order.persisted?
       flash[:alert] = @order.errors.full_messages.join(", ")
       redirect_to checkout_path(step: 'review') and return
