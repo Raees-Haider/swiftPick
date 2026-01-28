@@ -25,9 +25,6 @@ class User < ApplicationRecord
   save!(validate: false)
 end
 
-
-
-
   def clear_password_reset_token!
     self.password_reset_token = nil
     self.password_reset_sent_at = nil

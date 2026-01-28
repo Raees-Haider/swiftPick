@@ -1,11 +1,10 @@
 class Product < ApplicationRecord
-
+  # Associations
   has_many :cart_items, dependent: :destroy
   has_many :order_items, dependent: :destroy
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
   
-
   has_one_attached :image
 
   # Validations
@@ -27,13 +26,16 @@ class Product < ApplicationRecord
 
   validates :active, inclusion: { in: [true, false] }
 
+  # Require image for new products
   validates :image, presence: { message: "Please select an image file" }, if: :new_record?
 
+  # Require at least one category
   validate :at_least_one_category
 
   private
 
   def at_least_one_category
+    # Check if categories are assigned 
     category_ids_array = category_ids.present? ? category_ids.reject(&:blank?) : []
     if category_ids_array.empty? && categories.empty?
       errors.add(:categories, "must have at least one category selected")
