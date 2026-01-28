@@ -42,7 +42,7 @@ ActiveRecord::Base.transaction do
   if admin.new_record?
     admin.assign_attributes(
       name: "Admin User",
-      password: "admin123",
+      password: "password123",
       role: "admin"
     )
     admin.save!
@@ -118,7 +118,7 @@ products_data = [
   {
     name: "Smartphone",
     description: "Latest generation smartphone with advanced camera system, 5G connectivity, and all-day battery life.",
-    price: 899.99,
+    price: 8999.99,
     stock_quantity: 30,
     active: true,
     categories: ["Tech","Gaming"],
@@ -127,7 +127,7 @@ products_data = [
   {
     name: "The Correspondent",
     description: "The Correspondent: A Novel by Virginia Evans (Author)",
-    price: 16.99,
+    price: 1699.99,
     stock_quantity: 200,
     active: true,
     categories: ["Books"],
@@ -136,8 +136,8 @@ products_data = [
   {
     name: "Heated Rivalry",
     description: "Heated Rivalry: Now Streaming on Crave and HBO Max (Game Changers, 2) by Rachel Reid (Author)",
-    price: 34.99,
-    stock_quantity: 80,
+    price: 1234.99,
+    stock_quantity: 8,
     active: true,
     categories: ["Books"],
     image_path: "book6.webp"
@@ -145,7 +145,7 @@ products_data = [
   {
     name: "The Healing Power of Resilience",
     description: "The Healing Power of Resilience: A New Prescription for Health and Well-Being by Dr Tara Narula ",
-    price: 34.99,
+    price: 999.99,
     stock_quantity: 80,
     active: true,
     categories: ["Books"],
@@ -181,8 +181,8 @@ products_data = [
   {
     name: "Coffee Maker",
     description: "Programmable coffee maker with thermal carafe, 12-cup capacity, and auto-shutoff feature.",
-    price: 79.99,
-    stock_quantity: 40,
+    price: 7999.99,
+    stock_quantity: 4,
     active: true,
     categories: ["Home & Kitchen"],
     image_path: "coffee.jpg"
@@ -200,7 +200,7 @@ products_data = [
     name: "Bookshelf Decor Thinker Statue",
     description: "Bookshelf Decor Thinker Statue - Abstract Art Reading Thinker Sculpture Figurine Aesthetic",
     price: 3499.99,
-    stock_quantity: 80,
+    stock_quantity: 8,
     active: true,
     categories: ["Home Decor"],
     image_path: "decore5.jpg"
@@ -218,7 +218,7 @@ products_data = [
     name: "Broom and Dustpan Set",
     description: "Broom and Dustpan Set, Self-Cleaning with Dustpan Teeth, Indoor&Outdoor Sweeping",
     price: 1299.99,
-    stock_quantity: 80,
+    stock_quantity: 8,
     active: true,
     categories: ["Cleaning"],
     image_path: "clean6.jpg"

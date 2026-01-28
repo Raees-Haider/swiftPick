@@ -14,3 +14,16 @@
  * Consider organizing styles into separate files for maintainability.
  */
 @import "bootstrap";
+
+// Prevent footer overlap with content
+main {
+  min-height: calc(100vh - 200px); // Ensure minimum height
+  padding-bottom: 3rem; // Add bottom padding to prevent footer overlap
+}
+
+// Additional spacing for checkout pages
+.checkout-container,
+.container.mb-5 {
+  margin-bottom: 4rem !important;
+  padding-bottom: 2rem;
+}

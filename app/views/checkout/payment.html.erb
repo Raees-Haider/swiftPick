@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-5 pb-5">
   <h2 class="mb-4">Checkout</h2>
   
   <% if flash[:alert] %>
@@ -43,7 +43,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripePublishableKey = '<%= Rails.application.credentials.dig(:stripe, :publishable_key) || Rails.application.credentials.dig(:stripe, :public_key) || "" %>';
+  const stripePublishableKey = '<%= ENV["STRIPE_PUBLISHABLE_KEY"] || "" %>';
   
   if (!stripePublishableKey) {
     alert('Stripe is not configured. Please contact support.');
@@ -62,14 +62,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to create payment intent');
-    }
-
     const data = await response.json();
     
+    if (!response.ok) {
+      const errorMsg = data.error || data.message || `Server error: ${response.status} ${response.statusText}`;
+      console.error('Payment intent creation failed:', errorMsg);
+      document.getElementById("error-message").textContent = 'Error: ' + errorMsg;
+      submitButton.disabled = true;
+      return;
+    }
+    
     if (data.error) {
+      console.error('Payment intent error:', data.error);
       document.getElementById("error-message").textContent = 'Error: ' + data.error;
+      submitButton.disabled = true;
+      return;
+    }
+    
+    if (!data.clientSecret) {
+      console.error('No clientSecret in response:', data);
+      document.getElementById("error-message").textContent = 'Error: Invalid response from server. Please try again.';
       submitButton.disabled = true;
       return;
     }
@@ -126,7 +138,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   } catch (error) {
     console.error('Error:', error);
-    document.getElementById("error-message").textContent = 'Failed to initialize payment. Please refresh and try again.';
+    const errorMsg = error.message || 'Failed to initialize payment. Please refresh and try again.';
+    document.getElementById("error-message").textContent = 'Error: ' + errorMsg;
     submitButton.disabled = true;
   }
 });

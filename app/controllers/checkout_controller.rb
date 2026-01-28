@@ -30,17 +30,32 @@ class CheckoutController < ApplicationController
   def create_payment_intent
     return render_error("Your cart is empty") if @cart_items.empty?
     
+    # Check if Stripe is configured
+    unless Stripe.api_key.present?
+      Rails.logger.error "Stripe API key is not configured"
+      return render json: { error: "Stripe is not configured. Please contact support." }, status: :internal_server_error
+    end
+    
     begin
+      amount = calculate_amount_in_cents
+      Rails.logger.info "Creating payment intent for amount: #{amount} cents"
+      
       payment_intent = Stripe::PaymentIntent.create(
-        amount: calculate_amount_in_cents,
+        amount: amount,
         currency: 'pkr',
         payment_method_types: ["card"],
         metadata: { user_id: current_user.id }
       )
       
+      Rails.logger.info "Payment intent created: #{payment_intent.id}"
       render json: { clientSecret: payment_intent.client_secret }
     rescue Stripe::StripeError => e
+      Rails.logger.error "Stripe error: #{e.class} - #{e.message}"
       render json: { error: e.message }, status: :bad_request
+    rescue => e
+      Rails.logger.error "Unexpected error creating payment intent: #{e.class} - #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      render json: { error: "An unexpected error occurred. Please try again." }, status: :internal_server_error
     end
   end
   

@@ -36,6 +36,21 @@ rails db:migrate
 rails db:seed
 ```
 
+## Stripe Setup
+
+After cloning the project, create a `.env` file in the root directory and add your Stripe keys:
+
+```bash
+STRIPE_SECRET_KEY=sk_test_............
+STRIPE_PUBLISHABLE_KEY=pk_test_............
+```
+
+
+
+
+
+
+
 ## Starting the Application Locally
 
 To startup the Rails server, make sure that you are in the root of the application in the terminal and run:
@@ -71,7 +86,7 @@ admin@example.com
 
 Password: 
 ```bash
-admin123
+password123
 ```
 
 
