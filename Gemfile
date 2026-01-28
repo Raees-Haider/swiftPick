@@ -62,7 +62,7 @@ group :development, :test do
   gem "factory_bot_rails"
   
   # Shoulda Matchers for common validations
-  gem "shoulda-matchers", "~> 6.0"
+  gem "shoulda-matchers", "~> 7.0"
   
   # Faker for generating fake data
   gem "faker"
