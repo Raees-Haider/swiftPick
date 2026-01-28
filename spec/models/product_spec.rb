@@ -76,15 +76,16 @@ RSpec.describe Product, type: :model do
         expect(product.errors[:price]).to be_present
       end
       
-      it 'validates price is greater than or equal to 0' do
+      it 'validates price is greater than 0' do
         product = build(:product, price: -10, category_id: category.id)
         expect(product).not_to be_valid
-        expect(product.errors[:price]).to include("must be greater than or equal to 0")
+        expect(product.errors[:price]).to include("must be greater than 0")
       end
       
-      it 'accepts zero price' do
-        product = build_valid_product(price: 0)
-        expect(product).to be_valid
+      it 'rejects zero price' do
+        product = build(:product, price: 0, category_id: category.id)
+        expect(product).not_to be_valid
+        expect(product.errors[:price]).to include("must be greater than 0")
       end
       
       it 'accepts positive price' do
